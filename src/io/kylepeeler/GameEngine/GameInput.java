@@ -5,6 +5,7 @@ import java.awt.event.*;
 public class GameInput implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 
     private GameContainer gc;
+
     private final int NUM_KEYBOARD_KEYS = 256;
     private boolean[] keys = new boolean[NUM_KEYBOARD_KEYS];
     private boolean[] keysLastFrame = new boolean[NUM_KEYBOARD_KEYS];
@@ -12,6 +13,19 @@ public class GameInput implements KeyListener, MouseListener, MouseMotionListene
     private final int NUM_MOUSE_BTNS = 5;
     private boolean[] buttons = new boolean[NUM_MOUSE_BTNS];
     private  boolean[] buttonsLastFrame = new boolean[NUM_MOUSE_BTNS];
+
+    private int mouseX, mouseY;
+    private int scroll;
+
+    public GameInput(GameContainer gc){
+        this.gc = gc;
+        mouseX = mouseY = scroll = 0;
+
+        gc.getWindow().getCanvas().addKeyListener(this);
+        gc.getWindow().getCanvas().addMouseMotionListener(this);
+        gc.getWindow().getCanvas().addMouseListener(this);
+        gc.getWindow().getCanvas().addMouseWheelListener(this);
+    }
 
     public int getMouseX() {
         return mouseX;
@@ -41,27 +55,10 @@ public class GameInput implements KeyListener, MouseListener, MouseMotionListene
         return buttons[button];
     }
 
-    public boolean isMouseButtonUp(int button){
-        return !buttons[button] && buttonsLastFrame[button];
-    }
+    public boolean isMouseButtonUp(int button){ return !buttons[button] && buttonsLastFrame[button]; }
 
     public boolean isMouseButtonDown(int button){
         return buttons[button] && !keysLastFrame[button];
-    }
-
-    private int mouseX, mouseY;
-    private int scroll;
-
-    public GameInput(GameContainer gc){
-        this.gc = gc;
-        mouseX = 0;
-        mouseY = 0;
-        scroll = 0;
-
-        gc.getWindow().getCanvas().addKeyListener(this);
-        gc.getWindow().getCanvas().addMouseMotionListener(this);
-        gc.getWindow().getCanvas().addMouseListener(this);
-        gc.getWindow().getCanvas().addMouseWheelListener(this);
     }
 
     public void updateInput(){
@@ -76,11 +73,6 @@ public class GameInput implements KeyListener, MouseListener, MouseMotionListene
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
     public void keyPressed(KeyEvent e) {
         keys[e.getKeyCode()] = true;
     }
@@ -88,11 +80,6 @@ public class GameInput implements KeyListener, MouseListener, MouseMotionListene
     @Override
     public void keyReleased(KeyEvent e) {
         keys[e.getKeyCode()] = false;
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
@@ -106,13 +93,9 @@ public class GameInput implements KeyListener, MouseListener, MouseMotionListene
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
+    public void mouseMoved(MouseEvent e) {
+        mouseX = (int)(e.getX() / gc.getScale());
+        mouseY = (int)(e.getY() / gc.getScale());
     }
 
     @Override
@@ -121,13 +104,27 @@ public class GameInput implements KeyListener, MouseListener, MouseMotionListene
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-        mouseX = (int)(e.getX() / gc.getScale());
-        mouseY = (int)(e.getY() / gc.getScale());
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        scroll = e.getWheelRotation();
     }
 
     @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
-        scroll = e.getWheelRotation();
+    public void keyTyped(KeyEvent e) {
+        // Not implemented
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Not implemented, using mousePressed/mouseReleased
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // Not implemented
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // Not implemented
     }
 }

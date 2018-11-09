@@ -6,42 +6,23 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 public class GameWindow {
-    public JFrame getFrame() {
-        return frame;
-    }
-
-    private JFrame frame;
-    private BufferedImage image;
-
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
-    }
-
-    public Canvas getCanvas() {
-        return canvas;
-    }
-
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
-    }
 
     private Canvas canvas;
     private BufferStrategy bufferStrat;
     private Graphics graphics;
+    private JFrame frame;
+    private BufferedImage image;
 
     public GameWindow(GameContainer gc){
         image = new BufferedImage(gc.getWidth(), gc.getHeight(), BufferedImage.TYPE_INT_RGB);
         canvas = new Canvas();
         Dimension s = new Dimension((int)(gc.getWidth() * gc.getScale()), (int)(gc.getHeight() * gc.getScale()));
+
         canvas.setPreferredSize(s);
         canvas.setMaximumSize(s);
         canvas.setMinimumSize(s);
 
-        frame = new JFrame(gc.getTitle());
+        frame = new JFrame(gc.getWindowTitle());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(canvas, BorderLayout.CENTER);
@@ -53,6 +34,21 @@ public class GameWindow {
         canvas.createBufferStrategy(2);
         bufferStrat = canvas.getBufferStrategy();
         graphics = bufferStrat.getDrawGraphics();
+    }
+
+    public JFrame getFrame() { return frame; }
+    public BufferedImage getImage() {
+        return image;
+    }
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
     }
 
     public void update(){

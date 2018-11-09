@@ -7,17 +7,17 @@ import io.kylepeeler.GameEngine.gfx.Image;
 
 import java.awt.event.KeyEvent;
 
-public class GameController extends AbstractGame{
-
+public class BasicGame extends AbstractGame{
     private Image image;
-    public GameController(){
+
+    public BasicGame(){
         image = new Image("/test-circle.png");
     }
 
     @Override
     public void update(GameContainer gc, float dt) {
         if (gc.getInput().isKeyDown(KeyEvent.VK_SPACE)){
-            System.out.println("A was pressed");
+            System.out.println("Space was pressed");
         }
     }
 
@@ -27,7 +27,7 @@ public class GameController extends AbstractGame{
     }
 
     public static void main (String args[]){
-        GameContainer gc = new GameContainer(new GameController());
+        GameContainer gc = new GameContainer(new BasicGame());
         gc.start();
     }
 }
