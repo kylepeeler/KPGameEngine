@@ -9,7 +9,17 @@ public class GameContainer implements Runnable{
     private Thread thread;
     private boolean isRunning = false;
     private final double FPS_CAP = 1.0 / 60.0;
+
+    public GameInput getInput() {
+        return input;
+    }
+
     private  GameInput input;
+    private AbstractGame game;
+
+    public  GameContainer(AbstractGame game){
+        this.game = game;
+    }
 
     public GameWindow getWindow() {
         return window;
@@ -57,11 +67,7 @@ public class GameContainer implements Runnable{
                 unprocessedTime -= FPS_CAP;
                 shouldRender = true;
 
-                //TODO: update game
-                if (input.isMouseButton(MouseEvent.BUTTON1)){
-                    System.out.println("Button 1 is pressed");
-                }
-                System.out.println("Scroll is " + input.getScroll());
+                game.update(this, (float) FPS_CAP);
                 input.updateInput();
 
 
@@ -74,8 +80,8 @@ public class GameContainer implements Runnable{
             }
 
             if (shouldRender){
-                // TODO: render game
                 renderer.clearScreen();
+                game.render(this, renderer);
                 window.update();
                 framesPassed++;
             }else{
@@ -93,10 +99,10 @@ public class GameContainer implements Runnable{
 
     }
 
-    public static void main(String args[]){
-        GameContainer gc = new GameContainer();
-        gc.start();
-    }
+    private int width = 320;
+    private int height = 240;
+    private float scale = 4f;
+    private String title = "KPEngine v1.0";
 
     public int getWidth() {
         return width;
@@ -129,10 +135,6 @@ public class GameContainer implements Runnable{
     public void setTitle(String title) {
         this.title = title;
     }
-
-    private int width = 320, height = 240;
-    private float scale = 4f;
-    private String title = "KPEngine v1.0";
 
 
 }

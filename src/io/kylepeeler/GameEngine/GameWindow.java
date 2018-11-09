@@ -34,7 +34,7 @@ public class GameWindow {
     private Graphics graphics;
 
     public GameWindow(GameContainer gc){
-        image = new BufferedImage(gc.getWidth(), gc.getWidth(), BufferedImage.TYPE_INT_RGB);
+        image = new BufferedImage(gc.getWidth(), gc.getHeight(), BufferedImage.TYPE_INT_RGB);
         canvas = new Canvas();
         Dimension s = new Dimension((int)(gc.getWidth() * gc.getScale()), (int)(gc.getHeight() * gc.getScale()));
         canvas.setPreferredSize(s);
