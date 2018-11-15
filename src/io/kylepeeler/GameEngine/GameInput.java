@@ -39,7 +39,7 @@ public class GameInput implements KeyListener, MouseListener, MouseMotionListene
         return scroll;
     }
 
-    public boolean isKey(int keyCode){
+    public boolean isKeyPressed(int keyCode){
         return keys[keyCode];
     }
 

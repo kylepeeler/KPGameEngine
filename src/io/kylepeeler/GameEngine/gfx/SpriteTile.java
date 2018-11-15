@@ -1,6 +1,6 @@
 package io.kylepeeler.GameEngine.gfx;
 
-public class ImageTile extends Image {
+public class SpriteTile extends Sprite {
     private int tileW;
 
     public int getTileW() {
@@ -20,7 +20,7 @@ public class ImageTile extends Image {
     }
 
     private int tileH;
-    public ImageTile(String path, int tileW, int tileH){
+    public SpriteTile(String path, int tileW, int tileH){
         super(path);
         this.tileW = tileW;
         this.tileH = tileH;

@@ -5,12 +5,12 @@ public class Font  {
     public static final Font STANDARD = new Font("/fonts/standard-font.png");
     public static final Font SMALL = new Font("/fonts/standard-font-micro.png");
 
-    private Image fontImage;
+    private Sprite fontSprite;
     private int[] offsets;
     private int[] widths;
 
-    public Image getFontImage() {
-        return fontImage;
+    public Sprite getFontSprite() {
+        return fontSprite;
     }
 
     public int[] getOffsets() {
@@ -22,16 +22,16 @@ public class Font  {
     }
 
     public Font(String path){
-        fontImage = new Image(path);
+        fontSprite = new Sprite(path);
         offsets = new int[59];
         widths = new int[59];
 
         int ascii = 0;
-        for (int i = 0; i < fontImage.getWidth(); i++){
-            if (fontImage.getPixels()[i] == 0xff0000ff){
+        for (int i = 0; i < fontSprite.getWidth(); i++){
+            if (fontSprite.getPixels()[i] == 0xff0000ff){
                 offsets[ascii] = i;
             }
-            if (fontImage.getPixels()[i] == 0xffffff00){
+            if (fontSprite.getPixels()[i] == 0xffffff00){
                 widths[ascii] = i - offsets[ascii];
                 ascii++;
             }

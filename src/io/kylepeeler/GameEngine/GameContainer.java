@@ -9,7 +9,7 @@ public class GameContainer implements Runnable{
     private AbstractGame game;
     private int width = 320;
     private int height = 240;
-    private float scale = 4f;
+    private float scale = 1f;
     private final double FPS_CAP = 1 / 60.0;
     private String windowTitle = "KPEngine v0.1";
     private GameWindow window;
@@ -97,7 +97,7 @@ public class GameContainer implements Runnable{
             if (shouldRender){
                 renderer.clearScreen();
                 game.render(this, renderer);
-                renderer.drawString("FPS:" + fps, 0, 0, 0xff00ffff);
+                renderer.renderString("FPS:" + fps, 0, 0, 0xff00ffff);
                 window.update();
                 framesPassed++;
             }else{
