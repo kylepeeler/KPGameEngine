@@ -10,7 +10,25 @@ public class Sprite {
     private BufferedImage image = null;
     private int width, height;
     private int[] pixels;
-    private int x;
+    private int x, y;
+    private int dx, dy;
+
+    public int getDx() {
+        return dx;
+    }
+
+    public void setDx(int dx) {
+        this.dx = dx;
+    }
+
+    public int getDy() {
+        return dy;
+    }
+
+    public void setDy(int dy) {
+        this.dy = dy;
+    }
+
     private int curAngle = 0;
 
     public int getX() {
@@ -29,12 +47,17 @@ public class Sprite {
         this.y = y;
     }
 
+    public void update(){
+        this.x += dx;
+        this.y += dy;
+    }
+
     public void setPosition(int x, int y){
         this.x = x;
         this.y = y;
+        this.update();
     }
 
-    private int y;
 
     public Sprite(String path){
 
@@ -47,8 +70,8 @@ public class Sprite {
         width = image.getWidth();
         height = image.getHeight();
         this.setPosition(0, 0);
-        System.out.println("width: " + image.getWidth());
-        System.out.println("height: " + image.getHeight());
+        this.setDx(0);
+        this.setDy(0);
         pixels = image.getRGB(0, 0, width, height, null, 0, width);
     }
 
@@ -64,8 +87,6 @@ public class Sprite {
         width = image.getWidth();
         height = image.getHeight();
         this.setPosition(x, y);
-        System.out.println("width: " + image.getWidth());
-        System.out.println("height: " + image.getHeight());
         pixels = image.getRGB(0, 0, width, height, null, 0, width);
     }
 
@@ -97,28 +118,23 @@ public class Sprite {
     public void rotate(double angle){
         curAngle += angle;
         double rads = Math.toRadians(curAngle);
-        double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
         int w = image.getWidth();
         int h = image.getHeight();
-        int newWidth = (int) Math.floor(w * cos + h * sin);
-        int newHeight = (int) Math.floor(h * cos + w * sin);
-        BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = rotated.createGraphics();
-        AffineTransform at = new AffineTransform();
-        //at.translate((newWidth - w) / 2, (newHeight - h) / 2);
 
-        int x = w / 2;
-        int y = h / 2;
-
-        at.rotate(rads, x, y);
-        g2d.setTransform(at);
-        g2d.drawImage(image, 0, 0, null);
-        g2d.setColor(Color.MAGENTA);
-        g2d.drawRect(0, 0, newWidth - 1, newHeight - 1);
-        g2d.dispose();
-        width = rotated.getWidth();
-        height = rotated.getHeight();
-        pixels = rotated.getRGB(0, 0, width, height, null, 0, width);
+        AffineTransform at = AffineTransform.getRotateInstance(rads, w * 0.5, h * 0.5);
+        Rectangle rotatedBounds = at.createTransformedShape(new Rectangle(0, 0, w, h)).getBounds();
+        BufferedImage result = new BufferedImage(rotatedBounds.width, rotatedBounds.height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = result.createGraphics();
+        g.setColor(Color.MAGENTA); // Alpha value
+        g.fillRect(0, 0, rotatedBounds.width, rotatedBounds.height);
+        at.preConcatenate(AffineTransform.getTranslateInstance(-rotatedBounds.x, -rotatedBounds.y));
+        g.setTransform(at);
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+        width = result.getWidth();
+        height = result.getHeight();
+        pixels = result.getRGB(0, 0, width, height, null, 0, width);
     }
 
 }

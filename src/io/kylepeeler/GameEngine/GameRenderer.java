@@ -55,10 +55,10 @@ public class GameRenderer {
     }
 
     public void renderSprite(Sprite sprite, int offX, int offY){
-        int newX, newY;
-        newX = newY = 0;
-        int newWidth = sprite.getWidth();
-        int newHeight = sprite.getHeight();
+//        int newX, newY;
+//        newX = newY = 0;
+//        int newWidth = sprite.getWidth();
+//        int newHeight = sprite.getHeight();
 //
 //        // if sprite is completely off screen, don't need to draw
 //        if (offX < -newWidth || offY < -newHeight || offX >= pixelWidth || offY >= pixelHeight) return;
@@ -70,9 +70,9 @@ public class GameRenderer {
 //        if (newHeight + offY > pixelHeight){ newHeight -= newHeight + offY - pixelHeight; }
 
         // Draw the pixels to the graphic buffer
-        for (int x = newX; x < newWidth; x++){
-            for (int y = newY; y < newHeight; y++){
-                setPixel(x + offX, y + offY, sprite.getPixels()[x + y * sprite.getWidth()]);
+        for (int x = 0; x < sprite.getWidth(); x++){
+            for (int y = 0; y < sprite.getHeight(); y++){
+                setPixel(x + offX - (sprite.getWidth() / 2), y + offY - (sprite.getHeight() / 2), sprite.getPixels()[x + y * sprite.getWidth()]);
             }
         }
     }

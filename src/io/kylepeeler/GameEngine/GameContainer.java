@@ -7,8 +7,8 @@ public class GameContainer implements Runnable{
     private boolean isRunning = false;
     private GameInput input;
     private AbstractGame game;
-    private int width = 320;
-    private int height = 240;
+    private int width = 600;
+    private int height = 500;
     private float scale = 1f;
     private final double FPS_CAP = 1 / 60.0;
     private String windowTitle = "KPEngine v0.1";
