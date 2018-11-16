@@ -19,16 +19,16 @@ public class BasicGame extends AbstractGame{
     @Override
     public void update(GameContainer gc, float dt) {
         if (gc.getInput().isKeyPressed(KeyEvent.VK_S)){
-            sprite.setPosition(sprite.getX(), sprite.getY() + 1);
+            sprite.setPosition(sprite.getX(), sprite.getY() + 5);
         }
         if (gc.getInput().isKeyPressed(KeyEvent.VK_W)) {
-            sprite.setPosition(sprite.getX(), sprite.getY() - 1);
+            sprite.setPosition(sprite.getX(), sprite.getY() - 5);
         }
         if (gc.getInput().isKeyPressed(KeyEvent.VK_A)) {
-            sprite.setPosition(sprite.getX() - 1, sprite.getY());
+            sprite.setPosition(sprite.getX() - 5, sprite.getY());
         }
         if (gc.getInput().isKeyPressed(KeyEvent.VK_D)){
-            sprite.setPosition(sprite.getX() + 1, sprite.getY());
+            sprite.setPosition(sprite.getX() + 5, sprite.getY());
         }
         if (gc.getInput().isKeyPressed(KeyEvent.VK_E)){
             sprite.rotate(40.0);
