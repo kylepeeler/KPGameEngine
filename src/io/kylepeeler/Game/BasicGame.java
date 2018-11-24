@@ -22,24 +22,32 @@ public class BasicGame extends AbstractGame{
         spaceship = new Sprite("/spaceship.png");
         asteroid = new Sprite("/asteroid.png");
         spaceship.setPosition(100, 100);
-        for (int i = 0; i < 10; i++){
+        createGems();
+        createAsteroids();
+        spaceship.setBoundAction(BoundAction.WRAP);
+    }
+
+    public void createGems(){
+        for (int i = 0; i < 10; i++) {
             gems[i] = new Sprite("/gem.png");
             gems[i].setPosition((int) (Math.random() * 800), (int) (Math.random() * 600));
-            while(gems[i].collidesWith(spaceship)){
+            while (gems[i].collidesWith(spaceship)) {
                 gems[i].setPosition((int) (Math.random() * 800), (int) (Math.random() * 600));
             }
         }
-        for (int i = 0; i < 5; i++){
+    }
+
+    public void createAsteroids(){
+        for (int i = 0; i < 5; i++) {
             asteroids[i] = new Sprite("/asteroid.png");
             asteroids[i].setPosition((int) (Math.random() * 800), (int) (Math.random() * 600));
-            while(asteroids[i].collidesWith(spaceship)){
+            while (asteroids[i].collidesWith(spaceship)) {
                 asteroids[i].setPosition((int) (Math.random() * 800), (int) (Math.random() * 600));
             }
             asteroids[i].setSpeed(3);
-            asteroids[i].setAngle((int)(Math.random() * 360));
+            asteroids[i].setAngle((int) (Math.random() * 360));
             asteroids[i].setBoundAction(BoundAction.WRAP);
         }
-        spaceship.setBoundAction(BoundAction.WRAP);
     }
 
     @Override
@@ -80,8 +88,7 @@ public class BasicGame extends AbstractGame{
             }
             asteroid.update(gc);
         }
-
-        System.out.println("Sprite position: " + spaceship.getX() + ", " + spaceship.getY());
+        //System.out.println("Sprite position: " + spaceship.getX() + ", " + spaceship.getY());
     }
 
     @Override
@@ -94,24 +101,17 @@ public class BasicGame extends AbstractGame{
         for (int i = 0; i < 5; i++){
             r.renderSprite(asteroids[i]);
         }
-        r.renderString(gameText, gc.getWidth() / 2 - 80, 0, 0xFFFFFFFF, Font.FontSize.STANDARD);
+        r.renderString(gameText, 5, gc.getHeight() - 20, 0xFFFFFFFF, Font.FontSize.STANDARD);
     }
 
     @Override
     public void restart(GameContainer gc, GameRenderer r){
-        //Find the asteroid the ship collided with
-        for (Sprite asteroid: asteroids){
-            if (asteroid.collidesInclOffset(spaceship, 40)){
-                // Move that asteroid
-                while(asteroid.collidesInclOffset(spaceship, 40)){
-                    asteroid.setPosition(0, 0);
-                }
-            }
-        }
+        // Recreate the asteroids and gems
+        createGems();
+        createAsteroids();
         // Reset the score and game text
         score = 0;
         gameText = "Current Score: " + score;
-        asteroid.update(gc);
         gc.resume();
     }
 
