@@ -1,14 +1,23 @@
 package io.kylepeeler.GameEngine;
 
+import io.kylepeeler.GameEngine.gfx.Font;
+
+import java.awt.event.KeyEvent;
+
 public class GameContainer implements Runnable{
 
     private GameRenderer renderer;
     private Thread thread;
     private boolean isRunning = false;
     private GameInput input;
+
+    public void setGame(AbstractGame game) {
+        this.game = game;
+    }
+
     private AbstractGame game;
-    private int width = 600;
-    private int height = 500;
+    private int width = 800;
+    private int height = 600;
     private float scale = 1f;
     private final double FPS_CAP = 1 / 60.0;
     private String windowTitle = "KPEngine v0.1";
@@ -19,6 +28,8 @@ public class GameContainer implements Runnable{
     public GameContainer(AbstractGame game){
         this.game = game;
     }
+
+
 
     public GameInput getInput() {
         return input;
@@ -60,8 +71,16 @@ public class GameContainer implements Runnable{
         thread.run();
     }
 
+    public void resume(){
+        renderer = new GameRenderer(this);
+        input = new GameInput(this);
+        thread = new Thread(this);
+        thread.run();
+    }
+
     public void stop(){
         //TODO: implement
+       isRunning = false;
     }
 
     public void run(){
@@ -97,7 +116,7 @@ public class GameContainer implements Runnable{
             if (shouldRender){
                 renderer.clearScreen();
                 game.render(this, renderer);
-                renderer.renderString("FPS:" + fps, 0, 0, 0xff00ffff);
+                renderer.renderString("FPS:" + fps, 0, 0, 0xff00ffff, Font.FontSize.SMALL);
                 window.update();
                 framesPassed++;
             }else{
@@ -108,12 +127,14 @@ public class GameContainer implements Runnable{
                 }
             }
         }
-        cleanUp();
+
+        // If the game is not running (ie they lost, we should update input continuously so they can restart
+        while (!isRunning){
+            input.updateInput();
+            // Wait for R to call the restart method
+            if (input.isKeyPressed(KeyEvent.VK_R)){
+                game.restart(this, renderer);
+            }
+        }
     }
-
-    public void cleanUp(){
-
-    }
-
-
 }

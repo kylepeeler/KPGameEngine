@@ -34,7 +34,14 @@ public class GameRenderer {
         pixels[x + y * pixelWidth] = value;
     }
 
-    public void renderString(String text, int offX, int offY, int color){
+    public void renderString(String text, int offX, int offY, int color, Font.FontSize size){
+        if (size == null){
+            font = Font.STANDARD;
+        }else if (size == Font.FontSize.SMALL){
+            font = Font.SMALL;
+        }else if (size == Font.FontSize.STANDARD){
+            font = Font.STANDARD;
+        }
         text = text.toUpperCase();
         int offset = 0;
         for (int i = 0; i < text.length(); i++){
@@ -55,20 +62,6 @@ public class GameRenderer {
     }
 
     public void renderSprite(Sprite sprite, int offX, int offY){
-//        int newX, newY;
-//        newX = newY = 0;
-//        int newWidth = sprite.getWidth();
-//        int newHeight = sprite.getHeight();
-//
-//        // if sprite is completely off screen, don't need to draw
-//        if (offX < -newWidth || offY < -newHeight || offX >= pixelWidth || offY >= pixelHeight) return;
-//
-//        // Only account for visible pixels that are on the screen, handle if it clips in any direction
-//        if (offX < 0){ newX -= offX; }
-//        if (offY < 0){ newY -= offY; }
-//        if (newWidth + offX > pixelWidth){ newWidth -= newWidth + offX - pixelWidth; }
-//        if (newHeight + offY > pixelHeight){ newHeight -= newHeight + offY - pixelHeight; }
-
         // Draw the pixels to the graphic buffer
         if (sprite.isVisible()){
             for (int x = 0; x < sprite.getWidth(); x++){

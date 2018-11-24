@@ -2,6 +2,10 @@ package io.kylepeeler.GameEngine.gfx;
 
 public class Font  {
 
+    public enum FontSize {
+        STANDARD, SMALL;
+    }
+
     public static final Font STANDARD = new Font("/fonts/standard-font.png");
     public static final Font SMALL = new Font("/fonts/standard-font-micro.png");
 

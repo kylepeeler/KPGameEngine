@@ -13,11 +13,12 @@ public class Sprite {
     private int width, height;
     private int[] pixels;
     private int x, y;
-    private double dx = 10;
+    private double dx = 0;
     private double dy = 0;
     private double imgAngle = 0;
     private double moveAngle = 0;
-    private double speed = 10;
+    private double speed = 0;
+    private double scale = 1.0;
     private boolean visible = true;
     private BoundAction boundAction = BoundAction.WRAP;
 
@@ -30,8 +31,6 @@ public class Sprite {
         width = image.getWidth();
         height = image.getHeight();
         this.setPosition(0, 0);
-        this.setDx(1);
-        this.setDy(0);
         pixels = image.getRGB(0, 0, width, height, null, 0, width);
     }
 
@@ -45,8 +44,6 @@ public class Sprite {
         width = image.getWidth();
         height = image.getHeight();
         this.setPosition(x, y);
-        this.setDx(0);
-        this.setDy(0);
         pixels = image.getRGB(0, 0, width, height, null, 0, width);
     }
 
@@ -296,18 +293,22 @@ public class Sprite {
     }
 
     public boolean collidesWith(Sprite otherSprite){
+        return collidesInclOffset(otherSprite, 0);
+    }
+
+    public boolean collidesInclOffset(Sprite otherSprite, int offset){
         boolean collision = false;
         if (this.visible){
             if (otherSprite.visible){
                 //assume collision
                 collision = true;
-                if (this.getBottomBoundary() < otherSprite.getTopBoundary()) {
+                if (this.getBottomBoundary() < otherSprite.getTopBoundary() + offset) {
                     collision = false;
-                } else if (this.getTopBoundary() > otherSprite.getBottomBoundary()) {
+                } else if (this.getTopBoundary() + offset > otherSprite.getBottomBoundary()) {
                     collision = false;
-                } else if (this.getRightBoundary() < otherSprite.getLeftBoundary()) {
+                } else if (this.getRightBoundary() < otherSprite.getLeftBoundary() + offset) {
                     collision = false;
-                } else if (this.getLeftBoundary() > otherSprite.getRightBoundary()) {
+                } else if (this.getLeftBoundary() + offset > otherSprite.getRightBoundary()) {
                     collision = false;
                 }
             }
@@ -328,7 +329,7 @@ public class Sprite {
         g.fillRect(0, 0, rotatedBounds.width, rotatedBounds.height);
         at.preConcatenate(AffineTransform.getTranslateInstance(-rotatedBounds.x, -rotatedBounds.y));
         g.setTransform(at);
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
         g.drawImage(image, 0, 0, null);
         g.dispose();
         width = result.getWidth();
