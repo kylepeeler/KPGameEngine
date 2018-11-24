@@ -9,8 +9,6 @@ import io.kylepeeler.GameEngine.gfx.Sprite;
 
 import java.awt.event.KeyEvent;
 
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
-
 public class BasicGame extends AbstractGame{
     private Sprite spaceship, background, asteroid;
     private Sprite[] gems = new Sprite[10];
