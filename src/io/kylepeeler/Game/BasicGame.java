@@ -88,7 +88,7 @@ public class BasicGame extends AbstractGame{
             }
             asteroid.update(gc);
         }
-        //System.out.println("Sprite position: " + spaceship.getX() + ", " + spaceship.getY());
+        System.out.println("Spaceship position: " + spaceship.getX() + ", " + spaceship.getY());
     }
 
     @Override
@@ -101,7 +101,7 @@ public class BasicGame extends AbstractGame{
         for (int i = 0; i < 5; i++){
             r.renderSprite(asteroids[i]);
         }
-        r.renderString(gameText, 5, gc.getHeight() - 20, 0xFFFFFFFF, Font.FontSize.STANDARD);
+        r.renderString(gameText, 5, gc.getHeight() - 20, 0xFFFFFFFF, Font.FontSize.LARGE);
     }
 
     @Override

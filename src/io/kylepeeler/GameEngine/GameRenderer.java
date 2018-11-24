@@ -41,6 +41,8 @@ public class GameRenderer {
             font = Font.SMALL;
         }else if (size == Font.FontSize.STANDARD){
             font = Font.STANDARD;
+        }else if (size == Font.FontSize.LARGE){
+            font = Font.LARGE;
         }
         text = text.toUpperCase();
         int offset = 0;

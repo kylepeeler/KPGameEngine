@@ -79,7 +79,6 @@ public class GameContainer implements Runnable{
     }
 
     public void stop(){
-        //TODO: implement
        isRunning = false;
     }
 
@@ -116,7 +115,7 @@ public class GameContainer implements Runnable{
             if (shouldRender){
                 renderer.clearScreen();
                 game.render(this, renderer);
-                renderer.renderString("FPS:" + fps, 0, 0, 0xff00ffff, Font.FontSize.SMALL);
+                renderer.renderString("FPS:" + fps, 0, 0, 0xff00ffff, Font.FontSize.STANDARD);
                 window.update();
                 framesPassed++;
             }else{
