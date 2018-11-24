@@ -9,6 +9,8 @@ import io.kylepeeler.GameEngine.gfx.Sprite;
 
 import java.awt.event.KeyEvent;
 
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
+
 public class BasicGame extends AbstractGame{
     private Sprite spaceship, background, asteroid;
     private Sprite[] gems = new Sprite[10];
@@ -53,19 +55,19 @@ public class BasicGame extends AbstractGame{
     @Override
     public void update(GameContainer gc, float dt) {
 
-        if (gc.getInput().isKeyPressed(KeyEvent.VK_W)) {
+        if (gc.getInput().isKeyPressed(KeyEvent.VK_W) || gc.getInput().isKeyPressed(KeyEvent.VK_UP)) {
            spaceship.setSpeed(3);
-        }else if (gc.getInput().isKeyPressed(KeyEvent.VK_S)){
+        }else if (gc.getInput().isKeyPressed(KeyEvent.VK_S) || gc.getInput().isKeyPressed(KeyEvent.VK_DOWN)){
             spaceship.setSpeed(-3);
         }else{
             spaceship.setSpeed(0);
         }
 
         // Rotation
-        if (gc.getInput().isKeyPressed(KeyEvent.VK_A)) {
+        if (gc.getInput().isKeyPressed(KeyEvent.VK_A) || gc.getInput().isKeyPressed(KeyEvent.VK_LEFT)) {
             spaceship.changeAngleBy(-10);
         }
-        if (gc.getInput().isKeyPressed(KeyEvent.VK_D)){
+        if (gc.getInput().isKeyPressed(KeyEvent.VK_D) || gc.getInput().isKeyPressed(KeyEvent.VK_RIGHT)){
             spaceship.changeAngleBy(10);
         }
 
